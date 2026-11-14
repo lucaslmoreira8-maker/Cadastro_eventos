@@ -1,0 +1,40 @@
+namespace Cadastro_eventos.Views;
+
+public partial class NewPage1 : ContentPage
+{
+    App PropriedadesApp;
+
+    public NewPage1()
+	{
+		InitializeComponent();
+
+        PropriedadesApp = (App)Application.Current;
+
+        dtpck_checkin.MinimumDate = DateTime.Now;
+
+        dtpck_checkin.MaximumDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month + 1, DateTime.Now.Day);
+
+        dtpck_check_out.MinimumDate = dtpck_checkin.Date?.AddDays(1);
+        dtpck_check_out.MaximumDate = dtpck_checkin.Date?.AddMonths(6);
+    }
+    private void dtpck_checkin_DateSelected(object sender, DateChangedEventArgs e)
+    {
+        DatePicker elemento = sender as DatePicker;
+
+        DateTime data_selecionada_checkin = elemento.Date.GetValueOrDefault(DateTime.Today);
+
+        dtpck_check_out.MinimumDate = data_selecionada_checkin.AddDays(1);
+        dtpck_check_out.MaximumDate = data_selecionada_checkin.AddMonths(6);
+    }
+
+    private void Button_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            Navigation.PushAsync(new Nota_Evento());
+        }catch(Exception ex)
+        {
+            DisplayAlert("Ops", ex.Message, "Ok");
+        }
+    }
+}
