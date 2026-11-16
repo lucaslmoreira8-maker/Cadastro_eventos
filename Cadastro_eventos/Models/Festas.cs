@@ -6,7 +6,7 @@ namespace Cadastro_eventos.Models
 {
     public class Festas
     {
-        public string Descricao { get; set; }
+        public required string Descricao { get; set; }
 
         public double ValorAdulto { get; set; }
 
