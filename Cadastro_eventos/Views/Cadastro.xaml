@@ -8,7 +8,7 @@
     <VerticalStackLayout VerticalOptions="CenterAndExpand"
                          Padding="65">
         <Label 
-            Text="Calculo da Diária"
+            Text="Calculo de Eventos"
             FontFamily="Redaction10Bold"
             FontSize="50"
             TextColor="{StaticResource Gray600}"
@@ -17,9 +17,11 @@
              />
         <Frame Padding="10">
             <VerticalStackLayout>
-                <Label Text="Local do evento"
-                       TextColor="{StaticResource Gray100}"/>
-                <Entry x:Name="NomeEntry" Placeholder="Ex: Festa de Aniversário"/>
+                <Label Text="Escolha sua Festa"/>
+
+                <Picker x:Name="pck_festas"
+                        ItemDisplayBinding="{Binding Descricao}"
+                        SelectedIndexChanged="OnCampoAlterado"/>
 
                 <Frame Padding="10" Margin="10">
                     <VerticalStackLayout>
@@ -29,28 +31,37 @@
                             <Label Text="Data de Início"/>
 
                             <DatePicker x:Name="dtpck_checkin"
-                        DateSelected="dtpck_checkin_DateSelected"
-                        Format="dd/MM/yyyy"/>
+                                        DateSelected="dtpck_checkin_DateSelected"
+                                        Format="dd/MM/yyyy"
+                                        />
                         </HorizontalStackLayout>
 
                         <HorizontalStackLayout>
                             <Label Text="Data de Termino"/>
 
                             <DatePicker x:Name="dtpck_check_out"
-                        Format="dd/MM/yyyy"/>
+                                        
+                                        Format="dd/MM/yyyy"/>
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
                 </Frame>
                 
                 <Label Text="Adultos"
                         TextColor="{StaticResource Gray100}"/>
-                <Entry x:Name="AdultosEntry" Placeholder="Quantidade de Adultos"/>
+                <Entry x:Name="AdultosEntry" 
+                       Placeholder="Quantidade de Adultos"
+                       TextChanged="OnCampoAlterado"/>
                 <Label Text="Crianças"
                         TextColor="{StaticResource Gray100}"/>
-                <Entry x:Name="CriancaEntry" Placeholder="Quantidade de crianças"/>
-                <Button Text="Avançar"
-                    Background="{StaticResource Gray400}"
-                    Clicked="Button_Clicked" />
+                <Entry x:Name="CriancaEntry" 
+                       Placeholder="Quantidade de crianças"
+                       TextChanged="OnCampoAlterado"/>
+                <Button x:Name="btn_avancar"
+                        Text="Avançar"
+                        IsEnabled="False"
+                        Background="{StaticResource Gray400}"
+                        Clicked="Button_Clicked"
+                        />
             </VerticalStackLayout>
         </Frame>
 

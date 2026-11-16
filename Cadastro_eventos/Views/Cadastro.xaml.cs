@@ -1,3 +1,5 @@
+using Cadastro_eventos.Models;
+
 namespace Cadastro_eventos.Views;
 
 public partial class NewPage1 : ContentPage
@@ -7,6 +9,8 @@ public partial class NewPage1 : ContentPage
     public NewPage1()
 	{
 		InitializeComponent();
+
+        pck_festas.ItemsSource = App.lista_festas;
 
         PropriedadesApp = (App)Application.Current;
 
@@ -27,14 +31,34 @@ public partial class NewPage1 : ContentPage
         dtpck_check_out.MaximumDate = data_selecionada_checkin.AddMonths(6);
     }
 
-    private void Button_Clicked(object sender, EventArgs e)
+    private async void Button_Clicked(object sender, EventArgs e)
     {
         try
         {
-            Navigation.PushAsync(new Nota_Evento());
+            var dados = new Dados_Festa
+            {
+                FestasSelecionada = (Festas)pck_festas.SelectedItem,
+                Inicio = dtpck_checkin.Date ?? DateTime.Today,
+                Termino = dtpck_check_out.Date ?? DateTime.Today,
+                QuantidadeAdultos = int.TryParse(AdultosEntry.Text, out var a) ? a : 0,
+                QuantidadeCriancas = int.TryParse(CriancaEntry.Text, out var c) ? c : 0
+            };
+            await Navigation.PushAsync(new Nota_Evento(dados));
         }catch(Exception ex)
         {
             DisplayAlert("Ops", ex.Message, "Ok");
         }
     }
+    private void OnCampoAlterado(object sender, EventArgs e)
+    {
+        btn_avancar.IsEnabled = CamposPreenchidos();
+    }
+
+    private bool CamposPreenchidos()
+    {
+        return pck_festas.SelectedIndex != -1
+            && !string.IsNullOrWhiteSpace(AdultosEntry.Text)
+            && !string.IsNullOrWhiteSpace(CriancaEntry.Text);
+    }
+
 }
